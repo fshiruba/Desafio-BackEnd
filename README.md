@@ -1,20 +1,14 @@
-# Desafio backend Mottu.
-Seja muito bem-vindo ao desafio backend da Mottu, obrigado pelo interesse em fazer parte do nosso time e ajudar a melhorar a vida de milhares de pessoas.
-
-## Instruções
-- O desafio é válido para diversos níveis, portanto não se preocupe se não conseguir resolver por completo.
-- A aplicação só será avaliada se estiver rodando, se necessário crie um passo a passo para isso.
-- Faça um clone do repositório em seu git pessoal para iniciar o desenvolvimento e não cite nada relacionado a Mottu.
-- Após finalização envie um e-mail para o recrutador informando o repositório para análise.
-  
+﻿# Desafio backend
+ 
 ## Requisitos não funcionais 
-- A aplicação deverá ser construida com .Net utilizando C#.
-- Utilizar apenas os seguintes bancos de dados (Postgress, MongoDB)
-    - Não utilizar PL/pgSQL
-- Escolha o sistema de mensageria de sua preferencia( RabbitMq, Sqs/Sns , Kafka, Gooogle Pub/Sub ou qualquer outro)
+- [x] A aplicação deverá ser construida com .Net utilizando C#.
+- [x] Utilizar apenas os seguintes bancos de dados (Postgress, MongoDB)
+    - [x] Não utilizar PL/pgSQL
+- [] Escolha o sistema de mensageria de sua preferencia( RabbitMq, Sqs/Sns , Kafka, Gooogle Pub/Sub ou qualquer outro)
 
 ## Aplicação a ser desenvolvida
 Seu objetivo é criar uma aplicação para gerenciar aluguel de motos e entregadores. Quando um entregador estiver registrado e com uma locação ativa poderá também efetuar entregas de pedidos disponíveis na plataforma.
+
 ### Casos de uso
 - Eu como usuário admin quero cadastrar uma nova moto.
   - Os dados obrigatórios da moto são Identificador, Ano, Modelo e Placa
@@ -52,17 +46,17 @@ Seu objetivo é criar uma aplicação para gerenciar aluguel de motos e entregad
     
 
 ## Diferenciais 🚀
-- Testes unitários
-- Testes de integração
-- EntityFramework e/ou Dapper
-- Docker e Docker Compose
-- Design Patterns
-- Documentação
-- Tratamento de erros
-- Arquitetura e modelagem de dados
-- Código escrito em língua inglesa
-- Código limpo e organizado
-- Logs bem estruturados
-- Seguir convenções utilizadas pela comunidade
+- [ ] Testes unitários
+- [ ] Testes de integração
+- [x] EntityFramework e/ou Dapper
+- [ ] Docker e Docker Compose
+- [ ] Design Patterns
+- [ ] Documentação
+- [ ] Tratamento de erros
+- [x] Arquitetura e modelagem de dados
+- [x] Código escrito em língua inglesa
+- [ ] Código limpo e organizado
+- [ ] Logs bem estruturados
+- [ ] Seguir convenções utilizadas pela comunidade
   
 
