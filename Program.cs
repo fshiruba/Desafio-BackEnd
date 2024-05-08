@@ -16,7 +16,9 @@ namespace Desafio_Backend
 
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseNpgsql(connectionString));
-                //.UseSqlServer(connectionString));
+
+            builder.Services.AddDbContext<RentalDbContext>(options =>
+                options.UseNpgsql(connectionString));
 
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
