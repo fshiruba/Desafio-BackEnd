@@ -24,6 +24,8 @@ namespace Desafio_Backend
                 options.UseNpgsql(connectionString));
 
             builder.Services.AddScoped<IAdminService, AdminService>();
+            builder.Services.AddSingleton<IQueueService<Motorbike>, QueueService<Motorbike>>();
+            builder.Services.AddHttpContextAccessor();
 
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
