@@ -1,0 +1,42 @@
+﻿@page
+@model Desafio_Backend.Areas.Admin.Pages.AddBikeModel
+@{
+    ViewData["Title"] = "Cadastrar Motocicleta";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <h1>@ViewData["Title"]</h1>
+    </div>
+    <div class="col-md-6">
+
+
+        <form id="registerMotorbikeForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">            
+            <hr />
+            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+            <div class="form-floating mb-3">
+                <input asp-for="NewBike.Model" class="form-control" aria-required="true" placeholder="YAMAHA" />
+                <label asp-for="NewBike.Model">Modelo</label>
+                <span asp-validation-for="NewBike.Model" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3">
+                <input asp-for="NewBike.Plate" class="form-control"  aria-required="true" placeholder="XXX-1234"  />
+                <label asp-for="NewBike.Plate">Placa</label>
+                <span asp-validation-for="NewBike.Plate" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3">
+                <input asp-for="NewBike.ProductionYear" class="form-control"  aria-required="true" placeholder="2000" />
+                <label asp-for="NewBike.ProductionYear">Ano de Fabricação</label>
+                <span asp-validation-for="NewBike.ProductionYear" class="text-danger"></span>
+            </div>
+            <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Cadastrar</button>
+        </form>
+    </div>
+    <div class="col-md-6">
+    </div>
+
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

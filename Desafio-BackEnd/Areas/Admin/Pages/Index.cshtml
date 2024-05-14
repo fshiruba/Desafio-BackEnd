@@ -1,0 +1,57 @@
+﻿@page
+@model Desafio_Backend.Areas.Admin.Pages.IndexModel
+@{
+    ViewData["Title"] = "Lista de Motocicletas";
+}
+
+<div class="row">
+
+    <div class="col-md-12 mb-3">
+        <form method="post">
+            <table class="table"
+                   id="bikeTable"
+                   data-toggle="table"
+                   data-pagination="true"
+                   data-search="true"
+                   data-locale="pt-BR">
+                <thead>
+                    <tr>
+                        <th data-searchable="false">Id</th>
+                        <th data-searchable="false">Modelo</th>
+                        <th data-searchable="true" data-sortable="true">Placa</th>
+                        <th data-searchable="false">Ano</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var bike in Model.Motorbikes)
+                    {
+                        <tr>
+                            <td>@bike.Id</td>
+                            <td>@bike.Model</td>
+                            <td>@bike.Plate</td>
+                            <td>@bike.ProductionYear</td>
+                            <td>
+                                <a class="btn btn-primary" asp-page="/EditBike" asp-route-id="@bike.Id">Editar Placa</a>
+
+                                @if (!bike.Rentals.Any())
+                                {
+                                    <button class="btn btn-danger" type="submit" asp-page-handler="delete" asp-route-id="@bike.Id">Remover</button>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </form>
+
+
+    </div>
+
+    <div class="col-md-3 mb-3">
+        <a class="btn btn-success" asp-area="Admin" asp-page="/AddBike">Adicionar Motocicleta</a>
+    </div>
+
+    <div class="col-md-9 mb-3">
+    </div>
+</div>
