@@ -29,6 +29,7 @@
                 <label asp-for="NewBike.ProductionYear">Ano de Fabricação</label>
                 <span asp-validation-for="NewBike.ProductionYear" class="text-danger"></span>
             </div>
+            <input asp-for="NewBike.AdminId" type="hidden" value="admin" /> 
             <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Cadastrar</button>
         </form>
     </div>

@@ -49,7 +49,7 @@
     </div>
 
     <div class="col-md-3 mb-3">
-        <a class="btn btn-success" asp-area="Admin" asp-page="/AddBike">Adicionar Motocicleta</a>
+        <a class="btn btn-success" asp-area="Admin" asp-route-returnUrl="@ViewContext.HttpContext.Request.Path" asp-page="/AddBike">Adicionar Motocicleta</a>
     </div>
 
     <div class="col-md-9 mb-3">
