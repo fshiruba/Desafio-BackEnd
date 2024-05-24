@@ -1,0 +1,157 @@
+﻿@page
+@using System.Globalization
+@model Desafio_Backend.Areas.Rental.Pages.EditRentalModel
+@{
+    ViewData["Title"] = "Detalhes da Locação";
+}
+
+<div class="row">
+
+    <div class="col-md-12 mb-3">
+
+        <form id="EditRental" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+
+            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+            <input type="hidden" asp-for="Rental.Id" value="@Model.Rental.Id" />
+            <input asp-for="Rental.PlanId" type="hidden" />
+            <input asp-for="Rental.MotorbikeId" type="hidden" />
+            <input asp-for="Rental.DeliveryPersonId" type="hidden" />
+
+            <div class="row">
+                <h2>Motocicleta</h2>
+                <hr />
+            </div>
+
+            <div class="row">
+                <div class="form-floating col-md-4 mb-3">
+                    <input asp-for="Rental.Motorbike.Model" class="form-control" aria-required="true" readonly />
+                    <label asp-for="Rental.Motorbike.Model">Modelo</label>
+                </div>
+                <div class="form-floating col-md-4 mb-3">
+                    <input asp-for="Rental.Motorbike.ProductionYear" class="form-control" aria-required="true" readonly />
+                    <label asp-for="Rental.Motorbike.ProductionYear">Ano</label>
+                </div>
+                <div class="form-floating col-md-4 mb-3">
+                    <input asp-for="Rental.Motorbike.Plate" class="form-control" aria-required="true" readonly />
+                    <label asp-for="Rental.Motorbike.Plate">Placa</label>
+                </div>
+            </div>
+
+            <div class="row">
+                <h2>Entregador</h2>
+                <hr />
+            </div>
+
+            <div class="row">
+                <div class="form-floating col-md-4 mb-3">
+                    <img class="img-fluid" src="@Model.PictureUrl" />
+                </div>
+                <div class="form-floating col-md-8 mb-3">
+                </div>
+            </div>
+
+            <div class="row">
+
+                <div class="form-floating col-md-4 mb-3">
+                    <input asp-for="Rental.DeliveryPerson.Name" class="form-control" aria-required="true" readonly />
+                    <label asp-for="Rental.DeliveryPerson.Name">Nome</label>
+                </div>
+
+                <div class="form-floating col-md-4 mb-3">
+                    <input asp-for="Rental.DeliveryPerson.Cnpj" class="form-control" aria-required="true" readonly />
+                    <label asp-for="Rental.DeliveryPerson.Cnpj">CNPJ</label>
+                </div>
+
+                <div class="form-floating col-md-4 mb-3">
+                    <input asp-for="Rental.DeliveryPerson.CnhNumber" class="form-control" aria-required="true" readonly />
+                    <label asp-for="Rental.DeliveryPerson.CnhNumber">CNH</label>
+                </div>
+
+
+
+
+            </div>
+
+            <div class="row">
+                <h2>Locação</h2>
+                <hr />
+            </div>
+
+            <div class="row">
+                <div class="form-floating col-md-12 mb-3">
+                    @*<select asp-for="Rental.PlanId" asp-items="Model.GetPlans(Model.Rental.PlanId)" class="form-control"></select>*@
+                    <input class="form-control" aria-required="true" value="@Model.GetPlans(Model.Rental.PlanId).First(x=>x.Selected).Text" readonly />
+                    <label asp-for="Rental.PlanId">Plano</label>                    
+                    <span asp-validation-for="Rental.PlanId" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-floating col-md-3 mb-3">
+                    <input type="date" asp-for="Rental.StartDate" class="form-control" aria-required="true" readonly />
+                    <label asp-for="Rental.StartDate">Data Inicial</label>
+                    <span asp-validation-for="Rental.StartDate" class="text-danger"></span>
+                </div>
+                <div class="form-floating col-md-3 mb-3">
+                    <input type="date" asp-for="Rental.ExpectedEndDate" class="form-control" aria-required="true" readonly />
+                    <label asp-for="Rental.ExpectedEndDate">Data Final Esperada</label>
+                    <span asp-validation-for="Rental.ExpectedEndDate" class="text-danger"></span>
+                </div>
+                <div class="form-floating col-md-3 mb-3">
+                    <input type="date" asp-for="Rental.EndDate" class="form-control" aria-required="true" />
+                    <label asp-for="Rental.EndDate">Data Entrega</label>
+                    <span asp-validation-for="Rental.EndDate" class="text-danger"></span>
+                </div>
+
+                <div class="form-floating col-md-3 mb-3">
+                    <input id="EstimatedCost" class="form-control" aria-required="true" readonly value="@(Model.EstimatedCost.ToString("C",CultureInfo.CreateSpecificCulture("pt-BR")))" />
+                    <label>Valor Estimado</label>
+                </div>
+            </div>
+
+            <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Salvar</button>
+        </form>
+
+
+    </div>
+
+
+
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+
+            function update() {
+
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Page("/EditRental", new { area = "Rental", handler = "Update" })',
+                    headers: { "RequestVerificationToken": $('input[name="__RequestVerificationToken"]').val() },
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        "planid": @Model.Rental.PlanId, //$('#Rental_PlanId  option:selected').val(),
+                        "startdate": $('#Rental_StartDate').val(),
+                        "enddate": $('#Rental_EndDate').val(),
+                        "expectedenddate": $('#Rental_ExpectedEndDate').val()
+                    }),
+                    success: function (result) {
+                        $('#EstimatedCost').val(result.estimatedCostString);
+                    },
+                    error: function (xhr, status, error) {
+                        debugger;
+                        console.error("Error: " + error);
+                    }
+                });
+
+            }
+
+            //$('#Rental_PlanId').change(update);
+            $('#Rental_EndDate').change(update);
+
+        });
+
+
+    </script>
+}

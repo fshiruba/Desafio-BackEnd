@@ -1,4 +1,89 @@
 ﻿@page
 @model Desafio_Backend.Areas.Rental.Pages.RegisterModel
 @{
+    ViewData["Title"] = "Cadastro de Entregador";
 }
+
+<div class="row">
+    <div class="col-md-12">
+        <h1>@ViewData["Title"]</h1>
+    </div>
+    <div class="col-md-6">
+        <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post" enctype="multipart/form-data">
+            <h2>Create a new account.</h2>
+            <hr />
+            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+            <div class="form-floating mb-3">
+                <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="email@exemplo.com" />
+                <label asp-for="Input.Email">Email</label>
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3">
+                <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="Senha" />
+                <label asp-for="Input.Password">Password</label>
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3">
+                <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="Senha" />
+                <label asp-for="Input.ConfirmPassword">Confirm Password</label>
+                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+            </div>
+
+            @* DELIVERY *@
+
+            <div class="form-group mb-3">
+                <input asp-for="CnhPicture" type="file" class="form-control-file"/>
+                <input type="hidden" asp-for="DeliveryPerson.CnhPicture" value="@null" />
+                <label asp-for="DeliveryPerson.CnhPicture">Foto da CNH</label>
+                @* <span asp-validation-for="DeliveryPerson.Name" class="text-danger"></span> *@
+            </div>
+
+            <div class="form-floating mb-3">
+                <input asp-for="DeliveryPerson.Name" class="form-control" aria-required="true" placeholder="Nome" />
+                <label asp-for="DeliveryPerson.Name">Nome</label>
+                <span asp-validation-for="DeliveryPerson.Name" class="text-danger"></span>
+            </div>
+
+            <div class="form-floating mb-3">
+                <input asp-for="DeliveryPerson.Cnpj" class="form-control" aria-required="true" placeholder="" />
+                <label asp-for="DeliveryPerson.Cnpj">CNPJ</label>
+                <span asp-validation-for="DeliveryPerson.Cnpj" class="text-danger"></span>
+            </div>
+
+            <div class="form-floating mb-3">
+                <input asp-for="DeliveryPerson.CnhNumber" class="form-control" aria-required="true" placeholder="" />
+                <label asp-for="DeliveryPerson.CnhNumber">CNH</label>
+                <span asp-validation-for="DeliveryPerson.CnhNumber" class="text-danger"></span>
+            </div>
+
+            <div class="form-floating mb-3">
+                <input type="date" asp-for="DeliveryPerson.DateOfBirth" class="form-control" aria-required="true" placeholder="" />
+                <label asp-for="DeliveryPerson.DateOfBirth">Data de Nascimento</label>
+                <span asp-validation-for="DeliveryPerson.DateOfBirth" class="text-danger"></span>
+            </div>
+
+            <div class="form-floating mb-3">
+                <select asp-for="DeliveryPerson.CnhType" asp-items="Model.CnhTypes" class="form-control"></select>
+                @* <input asp-for="DeliveryPerson.DateOfBirth" class="form-control" aria-required="true" placeholder="" /> *@
+                <label asp-for="DeliveryPerson.CnhType">Tipo de CNH</label>
+                <span asp-validation-for="DeliveryPerson.CnhType" class="text-danger"></span>
+            </div>
+
+
+            <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Cadastrar</button>
+        </form>
+    </div>
+    <div class="col-md-6">
+    </div>
+
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        $(document).ready(function () {
+            $("#DeliveryPerson_Cnpj").inputmask("99.999.999/9999-99");
+        });
+    </script>
+}
+

@@ -1,0 +1,96 @@
+﻿@page
+@using System.Globalization
+@model Desafio_Backend.Areas.Rental.Pages.IndexModel
+@{
+    ViewData["Title"] = "Nova Locação";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <h1>@ViewData["Title"]</h1>
+    </div>
+    <div class="col-md-6">
+        <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+            
+            <h2>Cadastrar uma nova locação.</h2>
+            <hr />
+            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+
+            <div class="form-floating mb-3">
+                <select asp-for="NewRental.PlanId" asp-items="Model.Plans" class="form-control"></select>
+                <label asp-for="NewRental.PlanId">Escolha um Plano</label>
+                <span asp-validation-for="NewRental.PlanId" class="text-danger"></span>
+            </div>
+
+            <div class="form-floating mb-3">
+                <select asp-for="NewRental.MotorbikeId" asp-items="Model.Bikes" class="form-control"></select>
+                <label asp-for="NewRental.MotorbikeId">Escolha uma Motocicleta</label>
+                <span asp-validation-for="NewRental.MotorbikeId" class="text-danger"></span>
+            </div>
+
+            <div class="form-floating mb-3">
+                <input type="date" asp-for="NewRental.StartDate" class="form-control" aria-required="true" readonly />
+                <label asp-for="NewRental.StartDate">Data Início</label>
+                <span asp-validation-for="NewRental.StartDate" class="text-danger"></span>
+            </div>
+
+            <div class="form-floating mb-3">
+                <input type="date" asp-for="NewRental.ExpectedEndDate" class="form-control" aria-required="true" readonly />
+                <label asp-for="NewRental.ExpectedEndDate">Data Final</label>
+                <span asp-validation-for="NewRental.ExpectedEndDate" class="text-danger"></span>
+            </div>
+
+            <div class="form-floating mb-3">
+                <input id="EstimatedCost" class="form-control" aria-required="true" readonly value="@(Model.EstimatedCost.ToString("C",CultureInfo.CreateSpecificCulture("pt-BR")))" />
+                <label >Valor Estimado</label>                
+            </div>
+
+            <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Cadastrar</button>
+        </form>
+    </div>
+    <div class="col-md-6">
+    </div>
+
+</div>
+
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        $(document).ready(function () {
+
+            $('#NewRental_PlanId').change(function () {
+
+                // document.getElementById("NewRental_PlanId").addEventListener("change", function (event) {
+
+                // Get the field value
+                var fieldValue = $(this).val();
+
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Page("/Index", new { area = "Rental", handler = "Change" })',
+                    headers: { "RequestVerificationToken": $('input[name="__RequestVerificationToken"]').val() },
+                    // beforeSend: function (xhr) {
+                    //     xhr.setRequestHeader("XSRF-TOKEN", $('input:hidden[name="__RequestVerificationToken"]').val());
+                    // },
+                    contentType: 'application/json',
+                    data: JSON.stringify({ "planid": fieldValue }),
+                    success: function (result) {
+                        $('#NewRental_StartDate').val(result.startDate);
+                        $('#NewRental_ExpectedEndDate').val(result.endDate);
+                        $('#EstimatedCost').val(result.estimatedCostString);
+                    },
+                    error: function (xhr, status, error) {
+                        debugger;
+                        console.error("Error: " + error);
+                    }
+                });
+
+            });
+        });
+
+    </script>
+}
+

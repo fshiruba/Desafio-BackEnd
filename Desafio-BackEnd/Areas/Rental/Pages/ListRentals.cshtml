@@ -1,0 +1,69 @@
+﻿@page
+@model Desafio_Backend.Areas.Rental.Pages.ListRentalsModel
+@{
+    ViewData["Title"] = "Lista de Locações";
+}
+
+<div class="row">
+
+    <div class="col-md-12 mb-3">
+        <form method="post">
+            <table class="table"
+                   id="rentalTable"
+                   data-toggle="table"
+                   data-pagination="true"
+                   data-search="true"
+                   data-locale="pt-BR">
+                <thead>
+                    <tr>
+                        <th data-searchable="false">Id</th>
+                        <th data-searchable="false">Entregador</th>
+                        <th data-searchable="false">Motocicleta</th>
+                        <th data-searchable="false">Plano</th>
+                        <th data-searchable="false" data-sortable="true">Data Início</th>
+                        <th data-searchable="false" data-sortable="true">Data Final Prevista</th>
+                        <th data-searchable="false" data-sortable="true">Data Final Efetiva</th>
+                        <th data-searchable="false">Valor da Locação</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var rental in Model.Rentals)
+                    {
+                        <tr>
+                            <td>@rental.Id</td>
+                            <td title="@($"{rental.DeliveryPerson.Id} - {rental.DeliveryPerson.Cnpj}")">@rental.DeliveryPerson.Name</td>
+                            <td title="@($"{rental.Motorbike.Id} - {rental.Motorbike.Model} - {rental.Motorbike.ProductionYear} - {rental.Motorbike.Plate}")">@rental.Motorbike.Plate</td>
+                            <td title="@($"{rental.Plan.RentalDays} dias - R$ {rental.Plan.RentalCostPerDay / 10} por dia - {rental.Plan.PenaltyFeePercent}% de multa")">@($"{rental.Plan.RentalDays} dias")</td>
+                            <td>@rental.StartDate.ToString("dd/MM/yyyy")</td>
+                            <td>@rental.ExpectedEndDate.ToString("dd/MM/yyyy")</td>
+                            <td>@(rental.EndDate?.ToString("dd/MM/yyyy") ?? "----")</td>
+                            <td>@(Model.CalculateCost(rental))</td>
+                            <td>
+                                @* <a class="btn btn-primary" asp-page="/EditBike" asp-route-id="@bike.Id">Editar Placa</a> *@
+
+                                @if (!rental.EndDate.HasValue)
+                                {
+                                    <a class="btn btn-primary" asp-area="Rental" asp-page="/EditRental" asp-route-returnUrl="@ViewContext.HttpContext.Request.Path" asp-route-id="@rental.Id">Alterar data de entrega</a>
+                                }
+                                else
+                                {
+                                    <a class="btn btn-success">Entrega Confirmada</a>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </form>
+
+
+    </div>
+
+    @*     <div class="col-md-3 mb-3">
+    <a class="btn btn-success" asp-area="Admin" asp-route-returnUrl="@ViewContext.HttpContext.Request.Path" asp-page="/AddBike">Adicionar Motocicleta</a>
+    </div>
+    *@
+    <div class="col-md-9 mb-3">
+    </div>
+</div>
