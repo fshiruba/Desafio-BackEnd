@@ -1,3 +1,39 @@
 ﻿@page
 @model Desafio_Backend.Areas.Admin.Pages.EditBikeModel
-@Model.Id
+
+<div class="row">
+    <div class="col-md-12">
+        <h1>@ViewData["Title"]</h1>
+    </div>
+    <div class="col-md-6">
+        <form id="editMotorbikeForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">            
+            <hr />
+            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+            <div class="form-floating mb-3">
+                <input readonly style="text-transform: uppercase;" asp-for="EditedBike.Model" class="form-control" aria-required="true" value="@Model.EditedBike.Model"   />
+                <label asp-for="EditedBike.Model">Modelo</label>
+                <span asp-validation-for="EditedBike.Model" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3">
+                <input style="text-transform: uppercase;" asp-for="EditedBike.Plate" class="form-control"  aria-required="true" placeholder="ABC0123"  />
+                <label asp-for="EditedBike.Plate">Placa</label>
+                <span asp-validation-for="EditedBike.Plate" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3">
+                <input readonly asp-for="EditedBike.ProductionYear" class="form-control" aria-required="true" placeholder="2000" value="@Model.EditedBike.ProductionYear" />
+                <label asp-for="EditedBike.ProductionYear">Ano de Fabricação</label>
+                <span asp-validation-for="EditedBike.ProductionYear" class="text-danger"></span>
+            </div>
+            <input asp-for="EditedBike.AdminId" type="hidden" value="@Model.EditedBike.AdminId" /> 
+            <input asp-for="EditedBike.Id" type="hidden" value="@Model.EditedBike.Id" />
+            <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Atualizar</button>
+        </form>
+    </div>
+    <div class="col-md-6">
+    </div>
+
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

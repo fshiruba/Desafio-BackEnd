@@ -1,6 +1,5 @@
 using Desafio_Backend.Models;
 using Desafio_Backend.Services;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -10,28 +9,24 @@ namespace Desafio_Backend.Areas.Admin.Pages
     {
         public AddBikeModel(IAdminService adminService)
         {
-            //UserManager = userManager;
             AdminService = adminService;
         }
 
-        public string ReturnUrl { get; set; }
+        public IAdminService AdminService { get; }
 
         [BindProperty]
         public Motorbike NewBike { get; set; }
 
-        //public UserManager<IdentityUser> UserManager { get; }
-        public IAdminService AdminService { get; }
+        public string ReturnUrl { get; set; }
 
-        public async Task OnGetAsync(string returnUrl = null)
-        {            
+        public void OnGet(string returnUrl = "/Admin")
+        {
             ReturnUrl = returnUrl;
         }
 
-        public async Task<IActionResult> OnPostAsync([FromQuery] string returnUrl = null)
+        public async Task<IActionResult> OnPostAsync([FromQuery] string returnUrl = "/Admin")
         {
             ReturnUrl = returnUrl;
-            //var user = await UserManager.GetUserAsync(HttpContext.User);
-            //NewBike.AdminId = user!.Id;
 
             if (ModelState.IsValid)
             {
