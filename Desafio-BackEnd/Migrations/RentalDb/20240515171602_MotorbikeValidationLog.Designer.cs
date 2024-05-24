@@ -3,6 +3,7 @@ using System;
 using Desafio_Backend.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Desafio_Backend.Migrations.RentalDb
 {
     [DbContext(typeof(RentalDbContext))]
-    partial class RentalDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240515171602_MotorbikeValidationLog")]
+    partial class MotorbikeValidationLog
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -32,10 +35,10 @@ namespace Desafio_Backend.Migrations.RentalDb
 
                     b.Property<string>("CnhNumber")
                         .IsRequired()
-                        .HasMaxLength(11)
-                        .HasColumnType("character varying(11)");
+                        .HasColumnType("text");
 
                     b.Property<string>("CnhPicture")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("CnhType")
@@ -44,10 +47,9 @@ namespace Desafio_Backend.Migrations.RentalDb
 
                     b.Property<string>("Cnpj")
                         .IsRequired()
-                        .HasMaxLength(18)
-                        .HasColumnType("character varying(18)");
+                        .HasColumnType("text");
 
-                    b.Property<DateTime?>("DateOfBirth")
+                    b.Property<DateTime>("DateOfBirth")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("IdentityUserId")
@@ -162,43 +164,6 @@ namespace Desafio_Backend.Migrations.RentalDb
                     b.HasKey("Id");
 
                     b.ToTable("Plans");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            PenaltyFeePercent = 20,
-                            RentalCostPerDay = 300,
-                            RentalDays = 7
-                        },
-                        new
-                        {
-                            Id = 2,
-                            PenaltyFeePercent = 40,
-                            RentalCostPerDay = 280,
-                            RentalDays = 15
-                        },
-                        new
-                        {
-                            Id = 3,
-                            PenaltyFeePercent = 40,
-                            RentalCostPerDay = 220,
-                            RentalDays = 30
-                        },
-                        new
-                        {
-                            Id = 4,
-                            PenaltyFeePercent = 40,
-                            RentalCostPerDay = 200,
-                            RentalDays = 45
-                        },
-                        new
-                        {
-                            Id = 5,
-                            PenaltyFeePercent = 40,
-                            RentalCostPerDay = 180,
-                            RentalDays = 50
-                        });
                 });
 
             modelBuilder.Entity("Desafio_Backend.Models.Rental", b =>
@@ -287,7 +252,7 @@ namespace Desafio_Backend.Migrations.RentalDb
 
                     b.HasKey("Id");
 
-                    b.ToTable("AspNetUsers", (string)null);
+                    b.ToTable("IdentityUser");
                 });
 
             modelBuilder.Entity("Desafio_Backend.Models.DeliveryPerson", b =>
