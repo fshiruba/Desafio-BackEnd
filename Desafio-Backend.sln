@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Desafio-Backend", "Desafio-
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Desafio-BackEnd.Tests", "Desafio-BackEnd.Tests\Desafio-BackEnd.Tests.csproj", "{80D5B418-393F-4972-A065-BD96C366EBED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MotorBikeConsumer", "MotorBikeConsumer\MotorBikeConsumer.csproj", "{9873F564-4177-4D65-84A3-40DA0EF7D7D1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MotorBikeConsumer", "MotorBikeConsumer\MotorBikeConsumer.csproj", "{9873F564-4177-4D65-84A3-40DA0EF7D7D1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

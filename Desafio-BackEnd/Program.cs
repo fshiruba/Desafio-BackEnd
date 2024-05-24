@@ -24,6 +24,7 @@ namespace Desafio_Backend
                 options.UseNpgsql(connectionString));
 
             builder.Services.AddScoped<IAdminService, AdminService>();
+            builder.Services.AddScoped<IRentalService, RentalService>();
             builder.Services.AddSingleton<IQueueService<Motorbike>, QueueService<Motorbike>>();
             builder.Services.AddHttpContextAccessor();
 
@@ -68,6 +69,8 @@ namespace Desafio_Backend
             app.UseAuthorization();
 
             app.MapRazorPages();
+
+            //AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
             app.Run();
         }

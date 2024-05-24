@@ -29,7 +29,7 @@ namespace MotorBikeConsumer
             using var connection = factory.CreateConnection();
             using var channel = connection.CreateModel();
 
-            channel.QueueDeclare(queue: "Motorbike",                
+            channel.QueueDeclare(queue: "Motorbike",
                                  durable: false,
                                  exclusive: false,
                                  autoDelete: false,
@@ -38,7 +38,7 @@ namespace MotorBikeConsumer
             Console.WriteLine(" [*] Waiting for messages.");
 
             var consumer = new EventingBasicConsumer(channel);
-            
+
             consumer.Received += HandleMessage;
 
             channel.BasicConsume(queue: "Motorbike",
@@ -63,7 +63,7 @@ namespace MotorBikeConsumer
 
             // Access configuration values
             var connectionString = configuration.GetConnectionString("DefaultConnection");
-            
+
             Console.WriteLine($"Connection String: {connectionString}");
 
             return new RentalDbContext(new DbContextOptionsBuilder<RentalDbContext>().UseNpgsql(connectionString).Options);
