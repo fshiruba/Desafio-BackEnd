@@ -1,6 +1,15 @@
-﻿@using Microsoft.AspNetCore.Identity
+﻿@using Desafio_Backend.Services
+@using Microsoft.AspNetCore.Identity
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
+@inject IRentalService RentalService
+
+@{
+    bool userIsAdmin = User.IsInRole("Admin");
+    bool userIsDeliveryPerson = User.IsInRole("DeliveryPerson");
+    bool userHasLicenseA = RentalService.DeliveryPersonHasLicense(User, CnhHelper.A);
+    bool userCanAddRental = userIsDeliveryPerson && userHasLicenseA;
+}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -35,20 +44,35 @@
                             </li>
                         }
 
-                        @if (User.IsInRole("Admin"))
+                        @if (userIsAdmin)
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="Debug" asp-page="/Index">Debug</a>
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="Admin" asp-page="/Index">Admin</a>
+                                <a class="nav-link text-dark" asp-area="Admin" asp-page="/Index">Funções de Admin</a>
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Cadastrar Admin</a>
+                                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Cadastrar novo Admin</a>
                             </li>
                         }
+
+                        @if (userCanAddRental)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="Rental" asp-route-returnUrl="@ViewContext.HttpContext.Request.Path" asp-page="/Index">Nova Locação</a>
+                            </li>
+                        }
+
+                        @if ((userIsDeliveryPerson && userHasLicenseA)|| userIsAdmin)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="Rental" asp-route-returnUrl="@ViewContext.HttpContext.Request.Path" asp-page="/ListRentals">Ver Locações</a>
+                            </li>
+                        }
+
 
                         @* <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
@@ -64,16 +88,16 @@
 
             @RenderBody()
 
-            
+
 
             <div class="row">
                 <div class="col-md-12 mt-3">
-                @if (!UserManager.Users.Any())
-                {
-                    <div class="alert alert-danger" role="alert">
-                        Não há ADMINs registrados! o primeiro cadastro feito será elevado a ADMIN
-                    </div>
-                }
+                    @if (!UserManager.Users.Any())
+                    {
+                        <div class="alert alert-danger" role="alert">
+                            Não há ADMINs registrados! o primeiro cadastro feito será elevado a ADMIN
+                        </div>
+                    }
                 </div>
             </div>
 
@@ -91,6 +115,7 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-table@1.22.5/dist/bootstrap-table.min.js"></script>
     <script src="~/js/bootstrap-table-pt-BR.js"></script>
+    <script src="~/js/jquery.inputmask.min.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
